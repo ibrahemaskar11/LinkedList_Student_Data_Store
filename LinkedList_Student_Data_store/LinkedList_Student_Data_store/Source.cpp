@@ -28,56 +28,56 @@ Student::Student(const Student& old_obj) {
 	level = old_obj.level;
 };
 
-template <class H>
+template <class Type>
 class Node {
 public:
-	H data;
+	Type data;
 	Node* next;
 	Node* prev;
-	Node(H val);
+	Node(Type val);
 };
-template <class H>
-Node<H> ::Node(H val) {
+template <class Type>
+Node<Type>::Node(Type val) {
 	data = val;
 	next = NULL;
 	prev = NULL;
 }
-template <class H>
+template <class Type>
 class Linked_List {
-	Node<H>* head;
-	Node<H>* tail;
+	Node<Type>* head;
+	Node<Type>* tail;
 	int size;
 public:
 	Linked_List();
 	~Linked_List();
-	void insertFirst(H val);
-	void insertLast(H val);
-	void insertAfter(H val, int pos);
-	H removeFirst();
-	H removeLast();
-	H removeNode(H val);
-	H search(H val);
+	void insertFirst(Type val);
+	void insertLast(Type val);
+	void insertAfter(Type val, int pos);
+	Type removeFirst();
+	Type removeLast();
+	Type removeNode(Type val);
+	Type search(Type val);
 	void display();
 	int get_size() { return size; }
 };
 
-template <class H>
-Linked_List<H>::Linked_List() {
+template <class Type>
+Linked_List<Type>::Linked_List() {
 	head = NULL;
 	tail = NULL;
 	size = 0;
 }
 
-template<class H>
-Linked_List<H> :: ~Linked_List() {
+template<class Type>
+Linked_List<Type> :: ~Linked_List() {
 	while (head != NULL) {
-		H temp = removeFirst();
+		Type temp = removeFirst();
 	}
 }
-template<class H>
-void Linked_List<H>::insertFirst(H val) {
+template<class Type>
+void Linked_List<Type>::insertFirst(Type val) {
 	size++;
-	Node<H>* newNode = new Node<H>(val);
+	Node<Type>* newNode = new Node<Type>(val);
 	if (head == NULL) {
 		head = tail = newNode;
 	}
@@ -87,10 +87,10 @@ void Linked_List<H>::insertFirst(H val) {
 		head = newNode;
 	}
 }
-template <class H>
-void Linked_List<H> ::insertLast(H val) {
+template <class Type>
+void Linked_List<Type> ::insertLast(Type val) {
 	size++;
-	Node<H>* newNode = new Node<H>(val);
+	Node<Type>* newNode = new Node<Type>(val);
 	if (head == NULL) {
 		head = tail = newNode;
 	}
@@ -102,10 +102,10 @@ void Linked_List<H> ::insertLast(H val) {
 	}
 
 }
-template<class H>
-void Linked_List<H> ::insertAfter(H val, int pos) {
+template<class Type>
+void Linked_List<Type> ::insertAfter(Type val, int pos) {
 	size++;
-	Node<H>* ptr = head;
+	Node<Type>* ptr = head;
 	int i = 0;
 	while (ptr != NULL && i < pos){
 		ptr = ptr->next;
@@ -115,22 +115,22 @@ void Linked_List<H> ::insertAfter(H val, int pos) {
 		cout << "Position not found\n";
 		return;
 	}
-	Node<H>* newNode = new Node<H>(val);
+	Node<Type>* newNode = new Node<Type>(val);
 	if (ptr == tail) {
 		newNode->prev = tail;
 		tail->next = newNode;
 		tail = newNode;
 	}
 	else {
-		Node<H>* nextNode = ptr->next;
+		Node<Type>* nextNode = ptr->next;
 		newNode->next = nextNode;
 		newNode->prev = ptr;
 		nextNode->prev = newNode;
 		ptr->next = newNode;
 	}
 }
-template <class H>
-H Linked_List<H>::removeFirst() {
+template <class Type>
+Type Linked_List<Type>::removeFirst() {
 	size--;
 	if (head == NULL) {
 		cout << "List is empty\n";
@@ -138,21 +138,21 @@ H Linked_List<H>::removeFirst() {
 		exit(1);
 	}
 	else {
-		H val = head->data;
+		Type val = head->data;
 		if (head->next == NULL) {
 			delete(head);
 			head = tail = NULL;
 		}
 		else {
-			Node<H>* ptr = head;
+			Node<Type>* ptr = head;
 			head = ptr->next;
 			delete(ptr);
 		}
 		return val;
 	}
 }
-template <class H>
-H Linked_List<H>::removeLast() {
+template <class Type>
+Type Linked_List<Type>::removeLast() {
 	size--;
 	if (head == NULL) {
 		cout << "List is empty\n";
@@ -160,13 +160,13 @@ H Linked_List<H>::removeLast() {
 		exit(1);
 	}
 	else {
-		H val = tail->data;
+		Type val = tail->data;
 		if (head->next == NULL) {
 			delete(head);
 			head = tail = NULL;
 		}
 		else {
-			Node<H>* ptr = tail;
+			Node<Type>* ptr = tail;
 			tail = tail->prev;
 			tail->next = NULL;
 			delete(ptr);
@@ -175,10 +175,10 @@ H Linked_List<H>::removeLast() {
 		return val;
 	}
 }
-template <class H>
-void Linked_List<H>::display() {
+template <class Type>
+void Linked_List<Type>::display() {
 	cout << "The List is: ";
-	Node<H>* ptr = head;
+	Node<Type>* ptr = head;
 	while (ptr != NULL) {
 		cout << ptr->data << " | ";
 		ptr = ptr->next;
