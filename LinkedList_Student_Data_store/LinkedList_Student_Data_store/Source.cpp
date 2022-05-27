@@ -45,7 +45,6 @@ Node<Type>::Node(Type val) {
 template <class Type>
 class Linked_List {
 	Node<Type>* head;
-	Node<Type>* tail;
 	int size;
 public:
 	Linked_List();
@@ -66,7 +65,6 @@ public:
 template <class Type>
 Linked_List<Type>::Linked_List() {
 	head = NULL;
-	tail = NULL;
 	size = 0;
 }
 
@@ -82,7 +80,6 @@ void Linked_List<Type>::insertFirst(Type val) {
 	Node<Type>* newNode = new Node<Type>(val);
 	if (head == NULL) {
 		head = newNode;
-		tail = newNode;
 	}
 	else {
 		newNode->next = head;
@@ -95,15 +92,13 @@ void Linked_List<Type> ::insertLast(Type val) {
 	Node<Type>* newNode = new Node<Type>(val);
 	if (head == NULL) {
 		head = newNode;
-		tail = newNode;
 	}
 	else {
-		Node<Type>* ptr = tail;
-		/*while (ptr->next != NULL) {
+		Node<Type>* ptr = head;
+		while (ptr->next != NULL) {
 			ptr = ptr->next;
-		}*/
+		}
 		ptr->next = newNode;
-		tail = newNode;
 	}
 
 }
@@ -301,7 +296,7 @@ string trimString(string dummyFullName) {
 
 void main() {
 	Linked_List<Student> studentDataStore;
-	int choice = 5;
+	int choice = 0;
 	do {
 		cin.sync();
 		cout << "Student System\n1- Add Student\n2- DeleteStudent\n3- Update Student\n4- Search for Student\n5- Exit\n";
@@ -334,7 +329,7 @@ void main() {
 				continue;
 			}
 			Student student(fullName, GPA, level);
-			studentDataStore.insertLast(student);
+			studentDataStore.insertFirst(student);
 			cout << "Student " << fullName << " has been added successfully\n";
 		}
 		if (choice == 2) {
