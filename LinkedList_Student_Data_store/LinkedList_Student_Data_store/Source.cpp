@@ -57,7 +57,7 @@ public:
 	bool isValidForOperation(string fullName);
 	void display();
 	void updateStudentInfo(string fullName, double GPA, int level);
-	void studentSearch(string fullName);
+	Student studentSearch(string fullName);
 	int get_size() { return size; }
 };
 
@@ -106,7 +106,7 @@ void Linked_List<Type> ::insertAfter(Type val, int pos) {
 	size++;
 	Node<Type>* ptr = head;
 	int i = 0;
-	while (ptr != NULL && i < pos){
+	while (ptr != NULL && i < pos) {
 		ptr = ptr->next;
 		i++;
 	}
@@ -164,7 +164,7 @@ Type Linked_List<Type>::removeLast() {
 			delete(ptr->next);
 			delete(ptr);
 		}
-		
+
 		return val;
 	}
 }
@@ -180,24 +180,38 @@ void Linked_List<Type>::display() {
 }
 template <class Type>
 bool Linked_List<Type> ::isValidForOperation(string fullName) {
-		Node<Student>* ptr = head;
-		while (ptr != NULL && ptr->data.fullName != fullName)
-		{
-			ptr = ptr->next;
-		}
-		if (ptr == NULL)
-		{
-			return false;
-		}
-		return true;
+	Node<Student>* ptr = head;
+	while (ptr != NULL && ptr->data.fullName != fullName)
+	{
+		ptr = ptr->next;
+	}
+	if (ptr == NULL)
+	{
+		return false;
+	}
+	return true;
 }
 template <class Type>
 void Linked_List<Type>::removeStudent(string fullName) {
+	if (head == NULL) {
+		cout << "Linked List is empty\n";
+		return;
+	}
+	else if (head->data.fullName == fullName) {
+		removeFirst();
+		return;
+	}
 	Node<Type>* ptr = head;
-	while (ptr != NULL && ptr->data.fullName != fullName) {
+	while (ptr->next != NULL && ptr->next->data.fullName != fullName) {
 		ptr = ptr->next;
 	}
-	delete(ptr);
+	if (ptr->next == NULL) {
+		cout << "Data not Found\n";
+		return;
+	}
+	Node<Type>* q = ptr->next;
+	ptr->next = q->next;
+	delete(q);
 	cout << get_size();
 }
 template <class Type>
@@ -212,17 +226,17 @@ void Linked_List<Type>::updateStudentInfo(string fullName, double GPA, int level
 
 }
 template <class Type>
-void Linked_List<Type>::studentSearch(string fullName) {
+Student Linked_List<Type>::studentSearch(string fullName) {
 	Node<Type>* ptr = head;
 	while (ptr != NULL && ptr->data.fullName != fullName) {
 		ptr = ptr->next;
 	}
-	string name = ptr->data.fullName;
-	double GPA = ptr->data.GPA;
-	int level = ptr->data.level;
-	cout << "Full Name: " << name<<endl;
-	cout << "GPA: " << GPA << endl;
-	cout << "Level: " << level << endl;
+	if (ptr == NULL) {
+		cout << "Student does'nt exist\n";
+		Student obj("", 0, 0);
+		return obj;
+	}
+	return ptr->data;
 }
 
 bool isValidFullName(string fullName) {
@@ -247,7 +261,7 @@ bool isValidFullName(string fullName) {
 	return true;
 }
 bool isValidGPA(double GPA) {
-	if (GPA  < 0  || GPA > 4)
+	if (GPA < 0 || GPA > 4)
 		return false;
 	return true;
 }
@@ -256,39 +270,7 @@ bool isValidLevel(int level) {
 		return false;
 	return true;
 }
-void addStudent(Linked_List<Student> linked_list) {
-	string firstName = "";
-	string lastName = "";
-	double GPA = 0;
-	int level;
-	cout << "Enter Student FullName: ";
-	cin >> firstName >> lastName;
-	string fullName = firstName + ' ' + lastName;
-	if (!isValidFullName(fullName)) {
-		cout << "Student Full Name is not Valid\n";
-		return;
-	}
-	if (linked_list.isValidForOperation(fullName)) {
-		cout << "Student " << fullName << " already exists\n";
-		return;
-	}
-	cout << "Enter Student GPA: ";
-	cin >> GPA;
-	if (!isValidGPA(GPA)) {
-		cout << "Invalid GPA ( 0 <= GPA <= 4)\n";
-		return;
-	}
-	cout << "Enter Student Level: ";
-	cin >> level;
-	if (!isValidLevel(level)) {
-		cout << "Invalid Level ( 1 <= Level <= 4)\n";
-		return;
-	}
-	Student student(fullName, GPA, level);
-	cout << "Student " << fullName << " has been added successfully\n";
-	linked_list.insertLast(student);
-	cout << linked_list.get_size();
-}
+
 
 int main() {
 	Linked_List<Student> studentDataStore;
@@ -298,25 +280,53 @@ int main() {
 		cout << "Student System\n1- Add Student\n2- DeleteStudent\n3- Update Student\n4- Search for Student\n5- Exit\n";
 		cin >> choice;
 		if (choice == 1) {
-			addStudent(studentDataStore);
+			string firstName = "";
+			string lastName = "";
+			double GPA = 0;
+			int level = 0;
+			cout << "Enter Student Full Name to search for: ";
+			cin >> firstName >> lastName;
+			string fullName = firstName + " " + lastName;
+			if (!isValidFullName(fullName)) {
+				cout << "Student Full Name is not Valid\n";
+				continue;
+			}
+			if (studentDataStore.isValidForOperation(fullName)) {
+				cout << "Student already exists\n";
+				continue;
+			}
+			cout << "Enter Student GPA: ";
+			cin >> GPA;
+			if (!isValidGPA(GPA)) {
+				cout << "Invalid GPA ( 0 <= GPA <= 4)\n";
+				continue;
+			}
+			cout << "Enter Student Level: ";
+			cin >> level;
+			if (!isValidLevel(level)) {
+				cout << "Invalid Level ( 1 <= Level <= 4)\n";
+				continue;
+			}
+			Student student(fullName, GPA, level);
+			studentDataStore.insertLast(student);
+			cout << studentDataStore.get_size();
 		}
 		if (choice == 2) {
-			string firstName;
-			string lastName;
-			cout << "Enter Student Full Name to delete: ";
+			string firstName = "";
+			string lastName = "";
+			cout << "Enter Student Full Name to search for: ";
 			cin >> firstName >> lastName;
-			string fullName = firstName + ' ' + lastName;
+			string fullName = firstName + " " + lastName;
 			if (!isValidFullName(fullName)) {
 				cout << "Student Full Name is not Valid\n";
 				continue;
 			}
 			if (!studentDataStore.isValidForOperation(fullName)) {
-				cout << "Student " << fullName << " doesn't exist\n";
+				cout << "Student doesn't exists";
 				continue;
 			}
 			studentDataStore.removeStudent(fullName);
 			cout << "Student " << fullName << " has been deleted successfully\n";
-
 		}
 		if (choice == 3) {
 			string firstName;
@@ -325,7 +335,7 @@ int main() {
 			int level;
 			cout << "Enter Student Full Name to update: ";
 			cin >> firstName >> lastName;
-			string fullName = firstName + ' ' + lastName;
+			string fullName = firstName + " " + lastName;
 			if (!isValidFullName(fullName)) {
 				cout << "Student Full Name is not Valid\n";
 				continue;
@@ -354,17 +364,22 @@ int main() {
 			string lastName;
 			cout << "Enter Student Full Name to search for: ";
 			cin >> firstName >> lastName;
-			string fullName = firstName + ' ' + lastName;
-			if (isValidFullName(fullName)) {
+			string fullName = firstName + " " + lastName;
+			if (!isValidFullName(fullName)) {
 				cout << "Student Full Name is not Valid\n";
 				continue;
 			}
-			if (studentDataStore.isValidForOperation(fullName)) {
+			if (!studentDataStore.isValidForOperation(fullName)) {
 				cout << "Student " << fullName << " doesn't exist\n";
 				continue;
-			} 
-			studentDataStore.studentSearch(fullName);
+			}
+			Student student = studentDataStore.studentSearch(fullName);
+			cout << "Full Name: " << student.fullName << endl;
+			cout << "GPA: " << student.GPA << endl;
+			cout << "Level: " << student.level << endl;
+
 		}
+
 	} while (choice != 5);
 	cout << studentDataStore.get_size();
 	return 0;
