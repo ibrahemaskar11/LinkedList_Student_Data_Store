@@ -1,3 +1,2 @@
 ﻿  Source.cpp
-C:\Users\ibrah\OneDrive\Desktop\LinkedList_Student_Data_Store\LinkedList_Student_Data_Store\LinkedList_Student_Data_store\Source.cpp(189,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
-  LinkedList_Student_Data_store.vcxproj -> C:\Users\ibrah\OneDrive\Desktop\LinkedList_Student_Data_Store\LinkedList_Student_Data_Store\x64\Debug\LinkedList_Student_Data_Store.exe
+  LinkedList_Student_Data_store.vcxproj -> C:\Users\ibrah\OneDrive\Desktop\LinkedList_Student_Data_Store\LinkedList_Student_Data_store\x64\Debug\LinkedList_Student_Data_Store.exe
