@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include<string.h>
+#include <algorithm>
 using namespace std;
 
 class Student {
@@ -216,6 +217,10 @@ void Linked_List<Type>::removeStudent(string fullName) {
 }
 template <class Type>
 void Linked_List<Type>::updateStudentInfo(string fullName, double GPA, int level) {
+	if (head == NULL) {
+		cout << "Linked List is empty\n";
+		return;
+	}
 	Node<Type>* ptr = head;
 	while (ptr != NULL && ptr->data.fullName != fullName) {
 		ptr = ptr->next;
@@ -243,6 +248,7 @@ bool isValidFullName(string fullName) {
 	for (int i = 0; i < fullName.length(); i++)
 	{
 		if (!isalpha(fullName[i]) && fullName[i] != ' ') {
+			cout << "Student Full Name Can Not Include Special Characters\n";
 			return false;
 		}
 	}
@@ -270,7 +276,20 @@ bool isValidLevel(int level) {
 		return false;
 	return true;
 }
-
+string trimString(string dummyFullName) {
+	string WHITESPACE = " \n\r\t\f\v";
+	string rightTrim = dummyFullName.erase(dummyFullName.find_last_not_of(WHITESPACE) + 1);
+	string leftTrim = rightTrim.erase(0, rightTrim.find_first_not_of(WHITESPACE));
+	string fullName = leftTrim;
+	transform(fullName.begin(), fullName.end(), fullName.begin(), ::tolower);
+	int space = fullName.find(' ');
+	int upperCaseLetter = space + 1;
+	if (upperCaseLetter) {
+		fullName[upperCaseLetter] = toupper(fullName[upperCaseLetter]);
+		fullName[0] = toupper(fullName[0]);
+	}
+	return fullName;
+}
 
 int main() {
 	Linked_List<Student> studentDataStore;
@@ -280,13 +299,12 @@ int main() {
 		cout << "Student System\n1- Add Student\n2- DeleteStudent\n3- Update Student\n4- Search for Student\n5- Exit\n";
 		cin >> choice;
 		if (choice == 1) {
-			string firstName = "";
-			string lastName = "";
+			string dummyFullName;
 			double GPA = 0;
 			int level = 0;
 			cout << "Enter Student Full Name to search for: ";
-			cin >> firstName >> lastName;
-			string fullName = firstName + " " + lastName;
+			getline(cin >> ws, dummyFullName);
+			string fullName = trimString(dummyFullName);
 			if (!isValidFullName(fullName)) {
 				cout << "Student Full Name is not Valid\n";
 				continue;
@@ -309,14 +327,12 @@ int main() {
 			}
 			Student student(fullName, GPA, level);
 			studentDataStore.insertLast(student);
-			cout << studentDataStore.get_size();
 		}
 		if (choice == 2) {
-			string firstName = "";
-			string lastName = "";
+			string dummyFullName;
 			cout << "Enter Student Full Name to search for: ";
-			cin >> firstName >> lastName;
-			string fullName = firstName + " " + lastName;
+			getline(cin >> ws, dummyFullName);
+			string fullName = trimString(dummyFullName);
 			if (!isValidFullName(fullName)) {
 				cout << "Student Full Name is not Valid\n";
 				continue;
@@ -329,13 +345,12 @@ int main() {
 			cout << "Student " << fullName << " has been deleted successfully\n";
 		}
 		if (choice == 3) {
-			string firstName;
-			string lastName;
+			string dummyFullName;
 			double GPA;
 			int level;
 			cout << "Enter Student Full Name to update: ";
-			cin >> firstName >> lastName;
-			string fullName = firstName + " " + lastName;
+			getline(cin >> ws, dummyFullName);
+			string fullName = trimString(dummyFullName);
 			if (!isValidFullName(fullName)) {
 				cout << "Student Full Name is not Valid\n";
 				continue;
@@ -360,11 +375,10 @@ int main() {
 			cout << "Student " << fullName << " has been updated successfully\n";
 		}
 		if (choice == 4) {
-			string firstName;
-			string lastName;
+			string dummyFullName;
 			cout << "Enter Student Full Name to search for: ";
-			cin >> firstName >> lastName;
-			string fullName = firstName + " " + lastName;
+			getline(cin >> ws, dummyFullName);
+			string fullName = trimString(dummyFullName);
 			if (!isValidFullName(fullName)) {
 				cout << "Student Full Name is not Valid\n";
 				continue;

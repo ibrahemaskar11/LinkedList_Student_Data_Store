@@ -1,2 +1,3 @@
 ﻿  Source.cpp
-  LinkedList_Student_Data_store.vcxproj -> C:\Users\ibrah\OneDrive\Desktop\LinkedList_Student_Data_Store\LinkedList_Student_Data_store\x64\Debug\LinkedList_Student_Data_Store.exe
+C:\Users\ibrah\OneDrive\Desktop\LinkedList_Student_Data_Store\LinkedList_Student_Data_Store\LinkedList_Student_Data_store\Source.cpp(285,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  LinkedList_Student_Data_store.vcxproj -> C:\Users\ibrah\OneDrive\Desktop\LinkedList_Student_Data_Store\LinkedList_Student_Data_Store\x64\Debug\LinkedList_Student_Data_Store.exe
